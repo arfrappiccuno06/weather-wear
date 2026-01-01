@@ -1,196 +1,170 @@
-# Team Project
+# WeatherWear
 
-Please keep this up-to-date with information about your project throughout the term.
+A Java-based outfit recommendation application that provides personalized clothing suggestions based on real-time weather conditions, location, and individual style preferences.
 
-The readme should include information such as:
-- a summary of what your application is all about
-- a list of the user stories, along with who is responsible for each one
-- information about the API(s) that your project uses 
-- screenshots or animations demonstrating current functionality
+> **Note:** This was a collaborative team project developed at the University of Toronto for CSC207 (Software Design). I was primarily responsible for **Use Case 3: Personalized Style Recommendation**, implementing the AI-powered outfit generation feature with full Clean Architecture compliance and 100% test coverage.
 
-By keeping this README up-to-date,
-your team will find it easier to prepare for the final presentation
-at the end of the term.
+## Features
 
-# CSC207
+- **Real-time Weather Forecasting** – Displays hourly weather conditions including temperature, precipitation, wind speed, and UV index
+- **AI-Powered Outfit Generation** – Creates personalized outfit suggestions using Google Gemini API based on weather conditions and user preferences
+- **User Profile Management** – Saves style preferences (casual, formal, sporty), gender, and favorite colors for tailored recommendations
+- **Multiple Suggestion Variations** – Generates alternative outfit options if the initial suggestion doesn't match user preferences
+- **Accessory Recommendations** – Suggests weather-appropriate accessories (umbrella, sunglasses, etc.) based on outing purpose
+- **Location-Based Services** – Automatically detects user location or allows manual city input
 
-## Team Information
-**Team Name:** Twelve  
-**Tutorial Section:** TUT0201-12  
+## Tech Stack
 
----
+- **Language:** Java 11
+- **GUI Framework:** Java Swing
+- **Build Tool:** Maven
+- **Architecture:** Clean Architecture with strict layer separation
+- **Testing:** JUnit (100% coverage on use case interactors)
 
-## Domain
-Using weather data to generate outfit suggestions based on a user’s **location**, **style**, and **preferences**.  
-The goal of the software is to help users decide what to wear and bring based on daily weather conditions and personal style.
+### APIs & External Services
+- **OpenWeatherMap API** – Real-time and forecasted weather data
+- **Google Gemini AI API** – Natural language processing for outfit generation
+- **Supabase** – Backend storage for user profiles and preferences
 
----
+### Libraries
+- **OkHttp** (v4.11.0) – HTTP client for API calls
+- **org.json** (v20240303) – JSON parsing and manipulation
 
-## User Stories
-- **User Story 1:** As a user, I want to be able to see the weather throughout the day so I know what to bring.  
-- **User Story 2:** As a user, I want to see realistic outfit images generated from my recommended outfits so that I can visualize how it looks on me.
-- **User Story 3:** As a user, I want to get suggestions tailored to me so I can look nice when I’m outside.  
-- **User Story 4:** As a user, I want to be able to save my profile so I don’t have to rewrite all my preferences.  
-- **User Story 5:** As a user, I want to be able to get more than one suggestion if I don’t like the options given.  
-- **User Story 6:** As a user, I want to be able to get suggestions for accessories based on the purpose of my travel so I know what to bring.
+## How It Works
 
----
+1. **Location Detection** – User grants location access or manually enters their city
+2. **Weather Retrieval** – App fetches current conditions and hourly forecast via OpenWeatherMap API
+3. **AI Processing** – Weather data + user style preferences are sent to Google Gemini API
+4. **Outfit Generation** – AI generates detailed outfit suggestions including:
+    - Clothing items (tops, bottoms, outerwear)
+    - Color recommendations
+    - Fabric suggestions
+    - Accessories based on weather conditions
+5. **Display & Iteration** – User views suggestions and can request alternative options
 
-## Use Cases
+## Architecture
 
-### Use Case 1: View Daily Weather Forecast
-**Actors:** User, Weather API  
-**Goal:** View the day’s weather to plan what to bring  
-
-**Preconditions:**
-- User has granted location access  
-
-**Main Flow:**
-1. User opens the app  
-2. App requests the user’s current location  
-3. System calls Weather API to fetch current and hourly forecast data  
-4. Weather info (temperature, precipitation, wind, etc.) is displayed  
-
-**Postconditions:**
-- User can view accurate, location-specific weather information  
-
----
-
-### Use Case 2: Generate Image Based On Outfit Suggestion
-**Actors:** User, Google Gemini API  
-**Goal:** Get AI-generated outfit images based on an existing outfit suggestion
-
-**Preconditions:**
-- User has already received at least one outfit suggestion
-- System can successfully call the Google Gemini Image API
-
-**Main Flow:**
-1. User clicks “Generate Outfit Images”
-2. System collects the selected outfit suggestion as text prompts
-3. System sends the outfit prompts to the Google Gemini Image API
-4. Gemini generates outfit image based on the provided prompt
-5. Generated outfit image(s) are displayed in a scrollable gallery view
-
-**Postconditions:**
-- User sees visual outfit image that correspond to the text outfit suggestion
-
----
-
-### Use Case 3: Personalized Style Recommendation
-**Actors:** User, Google Gemini API  
-**Goal:** Receive outfit suggestions tailored to personal style  
-
-**Preconditions:**
-- User has saved a style profile  
-
-**Main Flow:**
-1. System retrieves saved preferences (e.g., casual, sporty, formal)  
-2. Combines preferences with weather data  
-3. LLM generates outfits matching user’s taste  
-4. User views and selects preferred options  
-
-**Postconditions:**
-- User gets personalized and stylish outfit recommendations  
-
----
-
-### Use Case 4: Manage User Profile
-**Actors:** User, Database / Local Storage  
-**Goal:** Save and manage personal style preferences  
-
-**Preconditions:**
-- User is logged in or using a local profile  
-
-**Main Flow:**
-1. User opens “Profile” section  
-2. User inputs info (gender, clothing preferences, colors, etc.)  
-3. User saves preferences  
-4. System stores data securely  
-
-**Alternative Flow:**
-- User edits or deletes preferences later  
-
-**Postconditions:**
-- Preferences are stored for future sessions  
-
----
-
-### Use Case 5: Request Additional Outfit Suggestions
-**Actors:** User, LLM Suggestion Engine  
-**Goal:** Get multiple outfit options to choose from  
-
-**Preconditions:**
-- At least one outfit suggestion has already been generated  
-
-**Main Flow:**
-1. User clicks “More Suggestions”  
-2. System prompts LLM for new variations  
-3. New suggestions (different styles/colors) are displayed  
-
-**Postconditions:**
-- User can browse multiple outfit ideas  
-
----
-
-### Use Case 6: Accessory Recommendation by Purpose
-**Actors:** User, LLM Suggestion Engine  
-**Goal:** Get accessory recommendations based on travel purpose and weather  
-
-**Preconditions:**
-- User provides purpose of outing (e.g., work, gym, travel)  
-
-**Main Flow:**
-1. User selects outing purpose  
-2. System analyzes purpose + weather conditions  
-3. LLM generates relevant accessories (e.g., umbrella, hat, bag)  
-4. Accessories appear with outfit suggestions  
-
-**Postconditions:**
-- User knows what accessories to bring for the day  
-
----
-
-## MVP Plan
-
-| **Lead** | **Use Case** | **User Story** |
-|-----------|---------------|----------------|
-| Name TBD | Use Case 1: View Daily Weather Forecast | User Story 1 |
-| Name TBD | Use Case 2: Generate Weather-Based Outfit Suggestion | User Story 2 |
-| Name TBD | Use Case 3: Personalized Style Recommendation | User Story 3 |
-| Name TBD | Use Case 4: Manage User Profile | User Story 4 |
-| Name TBD | Use Case 5: Request Additional Outfit Suggestions | User Story 5 |
-| Name TBD | Use Case 6: Accessory Recommendation by Purpose | User Story 6 |
-
----
-
-## Proposed Entities
-
-### **User**
+This project strictly follows **Clean Architecture** principles with clear separation of concerns:
 ```
--name: String
--style: ArrayList<String>
--location: String
--gender: String
+src/main/java/
+├── entity/              # Business entities (User, Weather, DailyForecast)
+├── use_case/            # Business logic interactors
+│   ├── outfit_suggestion/
+│   └── ...
+├── interface_adapter/   # Controllers, Presenters, ViewModels
+│   ├── outfit_suggestion/
+│   └── ...
+├── view/                # Swing GUI components
+└── data_access/         # API gateways and DAOs
 ```
 
-### **Weather**
+**Key Design Patterns:**
+- Dependency Inversion (all dependencies point inward)
+- Interface Segregation (separate input/output boundaries)
+- Single Responsibility (each class has one job)
+- Strategy Pattern (interchangeable data access implementations)
+
+## Use Cases Implemented
+
+| Use Case | Lead Developer | Description |
+|----------|---------------|-------------|
+| View Daily Weather Forecast | Steven | Displays hourly weather data with temperature, precipitation, and wind speed |
+| Generate Weather-Based Outfit | Jason | Creates basic outfit suggestions based on current weather |
+| **Personalized Style Recommendation** | **Arfa (me)** | **AI-powered personalized outfits matching user style preferences** |
+| Manage User Profile | Amey | User authentication and profile data persistence |
+| Request Additional Suggestions | Bhavikaa | Generate alternative outfit variations |
+| Accessory Recommendations | Vicky | Suggests accessories based on weather and outing purpose |
+
+## Testing
+
+All use case interactors have **100% code coverage** using JUnit. Tests include:
+- Mock objects for external API calls (no actual API requests during testing)
+- Success and failure scenarios
+- Edge cases and boundary conditions
+- Integration tests for end-to-end functionality
+
+Example test coverage for `OutfitSuggestionInteractor`:
+```java
+- testSuccessfulOutfitGeneration()
+- testAPIFailureHandling()
+- testInvalidUserPreferences()
+- testEmptyWeatherData()
 ```
--location: String
--temperature: ArrayList<Integer>
--precipitation: ArrayList<String>
--windspeed: int
--feelsLikeTemperature: ArrayList<Integer>
--uvIndex: int
--sunrise: DateTime
--sunset: DateTime
+
+## Team
+
+**Team Twelve** – University of Toronto (Fall 2024)
+- Steven (Weather Forecasting)
+- Jason (Basic Outfit Generation)
+- **Arfa** (Personalized AI Recommendations) ← *My contribution*
+- Amey (User Authentication & Profiles)
+- Bhavikaa (Additional Suggestions)
+- Vicky (Accessory Recommendations)
+
+## My Contributions
+
+### Primary Responsibility: Use Case 3 – Personalized Style Recommendation
+**Files Created (13 total across all layers):**
+- `OutfitSuggestionInteractor.java` – Core business logic
+- `OutfitSuggestionDataAccessObject.java` – Google Gemini API integration
+- `OutfitSuggestionController.java` – Interface adapter
+- `OutfitSuggestionPresenter.java` – Output formatting
+- `OutfitSuggestionView.java` – Swing GUI panel
+- Input/Output data structures and boundary interfaces
+- Comprehensive unit tests (100% coverage)
+
+**Technical Achievements:**
+- Integrated Google Gemini AI API with proper error handling
+- Implemented Clean Architecture with zero layer violations
+- Created robust testing suite with mock API responses
+- Designed intuitive Swing GUI for outfit display
+
+### Code Reviews
+- Identified security issue: exposed API keys in teammate's code
+- Caught bug: misspelled method name causing runtime errors
+- Suggested refactoring: extracted repeated code into helper methods
+
+## Installation & Setup
+
+1. **Clone the repository**
+```bash
+   git clone https://github.com/[your-username]/WeatherWear.git
+   cd WeatherWear
 ```
+
+2. **Configure API Keys**
+    - Get a free API key from [OpenWeatherMap](https://openweathermap.org/api)
+    - Get a Google Gemini API key from [Google AI Studio](https://aistudio.google.com/app/api-keys)
+    - Create configuration files (details in `src/main/java/data_access/`)
+
+3. **Build with Maven**
+```bash
+   mvn clean install
+```
+
+4. **Run the application**
+```bash
+   mvn exec:java -Dexec.mainClass="app.Main"
+```
+
+## Future Enhancements
+
+- **Web/Mobile Interface** – Convert to React frontend with RESTful API backend
+- **Machine Learning** – Train custom model on user feedback to improve recommendations
+- **Social Features** – Share outfit suggestions with friends
+- **Wardrobe Management** – Track owned clothing items and suggest combinations
+- **Multi-day Planning** – Generate outfit plans for entire week
+
+## License
+
+This project was developed for educational purposes as part of CSC207 at the University of Toronto.
+
+## Acknowledgments
+
+- Course instructors and TAs for guidance on Clean Architecture
+- Team Twelve for collaborative development
+- OpenWeatherMap and Google for providing free API access
 
 ---
 
-## Proposed APIs
-
-| **API** | **Link** | **Purpose / Features** |
-|----------|-----------|------------------------|
-| **OpenWeatherMap API** | [https://openweathermap.org/api](https://openweathermap.org/api) | Provides UV index, temperature, wind speed, air pressure, and other weather attributes |
-| **Google Gemini API** | [https://aistudio.google.com/app/api-keys](https://aistudio.google.com/app/api-keys) | Generates outfit and accessory suggestions using LLMs (free API key for each account) |
-| **Supabase** | [https://supabase.com](https://supabase.com) | Free backend storage for user profiles; includes authentication options |
+**Note:** This project demonstrates proficiency in object-oriented design, software architecture patterns, API integration, testing methodologies, and collaborative Git workflows – skills directly applicable to software engineering roles.
